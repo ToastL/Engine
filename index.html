@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script id="default-sprite-vs" type="x-shader/x-vertex">#version 300 es
+      
+      in vec2 a_position;
+      in vec2 a_texcoord;
+
+      uniform mat3 u_world;
+      uniform mat3 u_object;
+      uniform vec2 u_frame;
+
+      out vec2 v_texcoord;
+
+      void main() {
+        v_texcoord = a_texcoord + u_frame;
+
+        gl_Position = vec4(u_world * u_object * vec3(a_position, 1.0), 1.0);
+      }
+    </script>
+    <script id="default-sprite-fs" type="x-shader/x-fragment">#version 300 es
+
+      precision mediump float;
+
+      in vec2 v_texcoord;
+
+      uniform sampler2D u_image;
+      uniform vec4 u_color;
+
+      out vec4 fragColor;
+
+      void main() {
+        fragColor = u_color * texture(u_image, v_texcoord);
+      }
+    </script>
+
+    <script id="fb-vs" type="x-shader/x-vertex">#version 300 es
+      in vec2 a_position;
+      in vec2 a_texcoord;
+
+      out vec2 v_texcoord;
+
+      void main() {
+        v_texcoord = a_texcoord;
+
+        gl_Position = vec4(a_position, 1.0, 1.0);
+      }
+    </script>
+    <script id="fb-fs" type="x-shader/x-fragment">#version 300 es
+      precision mediump float;
+
+      in vec2 v_texcoord;
+
+      uniform sampler2D u_image;
+      
+      out vec4 fragColor;
+
+      void main() {
+        fragColor = texture(u_image, v_texcoord);
+      }
+    </script>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
