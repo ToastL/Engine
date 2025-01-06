@@ -1,15 +1,21 @@
-import Client from './client';
+import GameScene from './client';
+import { ToastEngine } from './engine';
 
 import './style.css';
 
-const game = new Client();
+const engine = new ToastEngine();
 
-window.addEventListener("resize", () => game.resize(window.innerWidth, window.innerHeight))
-game.resize(window.innerWidth, window.innerHeight)
+const test = new GameScene(engine)
+engine.scene = test
 
-const container = document.querySelector("#app")
-if (!container) throw new Error("Could not get container")
+window.addEventListener('resize', () => engine.resize(window.innerWidth, window.innerHeight))
+window.addEventListener('keydown', e => engine.keyDown(e.key))
+window.addEventListener('keyup', e => engine.keyUp(e.key))
+engine.resize(window.innerWidth, window.innerHeight)
 
-game.appendCanvas(container)
+const container = document.querySelector('#app')
+if (!container) throw new Error('Could not get container')
 
-game.run()
+engine.appendCanvas(container)
+
+engine.run()

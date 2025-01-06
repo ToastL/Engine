@@ -20,6 +20,33 @@ class Vector2 {
     }
 }
 
+class Vector3 {
+    private _x
+    private _y
+    private _z
+
+    constructor(x: number, y: number, z: number) {
+        this._x = x
+        this._y = y
+        this._z = z
+    }
+
+    public get x() { return this._x }
+    public set x(value) { this._x = value }
+    public get y() { return this._y }
+    public set y(value) { this._y = value }
+    public get z() { return this._z }
+    public set z(value) { this._z = value }
+
+    public get floor() {
+        return new Vector3(
+            Math.floor(this.x),
+            Math.floor(this.y),
+            Math.floor(this.z)
+        )
+    }
+}
+
 class Matrix3x3 {
     private _matrix
 
@@ -36,7 +63,7 @@ class Matrix3x3 {
     public get matrix() { return this._matrix }
     public set matrix(matrix) { 
         if (matrix.length != 9)
-            throw new Error("Given matrix is not correct length")
+            throw new Error('Given matrix is not correct length')
 
         this._matrix = matrix
     }
@@ -94,4 +121,4 @@ class Matrix3x3 {
     }
 }
 
-export { Vector2, Matrix3x3 }
+export { Vector2, Vector3, Matrix3x3 }

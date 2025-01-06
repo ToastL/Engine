@@ -1,11 +1,11 @@
 type ShaderInfo = {
-    id: string
+    src: string
     type: GLenum
 }
 
-function compileShader(gl: WebGL2RenderingContext, id: string, type: GLenum) {
-    const source = document.getElementById(id)?.firstChild?.nodeValue
-    if (!source) throw new Error(`Could not get shader source with id: ${id}`)
+function compileShader(gl: WebGL2RenderingContext, src: string, type: GLenum) {
+    // const source = document.getElementById(id)?.firstChild?.nodeValue
+    // if (!source) throw new Error(`Could not get shader source with id: ${id}`)
 
     const shader = gl.createShader(type)
     if (!shader)
@@ -13,7 +13,7 @@ function compileShader(gl: WebGL2RenderingContext, id: string, type: GLenum) {
             type === gl.VERTEX_SHADER ? 'vertex' : 'fragment'
         } shader`)
 
-    gl.shaderSource(shader, source)
+    gl.shaderSource(shader, src)
     gl.compileShader(shader)
 
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
@@ -29,7 +29,7 @@ function linkProgram(gl: WebGL2RenderingContext, shaderInfo: ShaderInfo[]) {
     if (!program) throw new Error('Could not create program')
     
     shaderInfo.forEach(currInfo => {
-        const shader = compileShader(gl, currInfo.id, currInfo.type)
+        const shader = compileShader(gl, currInfo.src, currInfo.type)
 
         gl.attachShader(program, shader)
     });
