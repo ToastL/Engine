@@ -102,7 +102,6 @@ class ToastEngine {
         
         this.scene.update(dt)
 
-        // console.log(this.scene.objects)
         for (let i = 0; i < this.scene.world.objects.length; i++) {
             const object = this.scene.world.objects[i]
 
@@ -110,16 +109,12 @@ class ToastEngine {
 
             for (let j = 0; j < this.scene.world.objects.length; j++) {
                 const currentObject = this.scene.world.objects[j]
-                // console.log('test1')
                 if (object == currentObject) continue
-                // console.log('test2')
 
-                if (object.boxcollider && currentObject.boxcollider)
-                    object.boxcollider.collides(currentObject.boxcollider)
-                
+                if (object.boxcollider && currentObject.boxcollider && !object.boxcollider.stuck)
+                    object.boxcollider.collides(currentObject.boxcollider)       
             }
         }
-
     }
 
     private render() {
@@ -137,8 +132,8 @@ class ToastEngine {
         
         this.buffer = this.finalBuffer
         if (this.scene) this.white.render(new Vector2(
-            -this.scene.camera.size.x/2,
-            -this.scene.camera.size.y/2
+            this.scene.camera.position.x-this.scene.camera.size.x/2,
+            this.scene.camera.position.y-this.scene.camera.size.y/2
         ), new Vector2(0, 0))
 
         this.blendmode = Blendmode.ADDITIVE

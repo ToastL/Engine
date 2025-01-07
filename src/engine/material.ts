@@ -495,6 +495,7 @@ class Camera {
     private get engine() { return this._engine }
 
     public get position() { return this._position }
+    public set position(value) { this._position = value}
     public get size() { return this._size }
     public set size(value) { this._size = value }
 
